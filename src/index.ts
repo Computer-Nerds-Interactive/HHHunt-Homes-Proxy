@@ -51,7 +51,7 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
 
 
 //Redirect to the procies urls if uses is using webflow url strucutre
-app.get("/new-homes/region/:slug", async (c) => {
+app.get("/new-homes/latest/region/:slug", async (c) => {
   const { slug } = c.req.param()
   //get city and state from slug separated by "-"
   const [city, state] = slug.split("--")
@@ -59,7 +59,7 @@ app.get("/new-homes/region/:slug", async (c) => {
   console.log("Madison code test")
 
   //const redirectUrl = `/new-homes/${state}/${city}/communities`
-  const url = new URL(`${webflowDomain}/new-homes/latest/${state}/${city}/communities`)
+  const url = new URL(`${webflowDomain}/new-homes/${state}/${city}/communities`)
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
     url.searchParams.set(key, value)
