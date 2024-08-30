@@ -57,7 +57,7 @@ app.get("/new-homes/region/:slug", async (c) => {
   const [city, state] = slug.split("--")
   console.log(city, state)
 
-  //const redirectUrl = `/new-homes/${state}/${city}/communities`
+  //const redirectUrl = `/new-homes/latest/${state}/${city}/communities`
   const url = new URL(`${webflowDomain}/new-homes/latest/${state}/${city}/communities`)
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
