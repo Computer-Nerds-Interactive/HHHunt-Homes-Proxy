@@ -1,7 +1,5 @@
 import { Hono } from "hono"
 
-// Testing
-
 const app = new Hono()
 
 const webflowDomain = "https://hhhunthomesdev.com"
@@ -15,6 +13,7 @@ app.get("/new-homes/:state/:city/communities", async (c) => {
   //Get the communities from the webflow
   const url = new URL(`${webflowDomain}/new-homes/region/${city}--${state}`)
   console.log(url.toString())
+  console.log("Madison code test")
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
     url.searchParams.set(key, value)
