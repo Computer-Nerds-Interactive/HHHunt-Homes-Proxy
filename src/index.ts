@@ -6,14 +6,13 @@ const webflowDomain = "https://hhhunthomesdev.com"
 
 //Fetch Content from Webflow Page if user comes directly to transformed url
 
-app.get("/new-homes/:state/:city/communities", async (c) => {
+app.get("/new-homes/latest/:state/:city/communities", async (c) => {
   const { city, state } = c.req.param()
   console.log(state, city)
 
   //Get the communities from the webflow
-  const url = new URL(`${webflowDomain}/new-homes/latest/region/${city}--${state}`)
+  const url = new URL(`${webflowDomain}/new-homes/region/${city}--${state}`)
   console.log(url.toString())
-  console.log("Madison code test")
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
     url.searchParams.set(key, value)
