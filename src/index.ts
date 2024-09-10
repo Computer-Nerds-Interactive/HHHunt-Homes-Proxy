@@ -4,12 +4,13 @@ const app = new Hono()
 
 const webflowDomain = "https://hhhunthomesdev.com"
 
-// Explicitly handle the URL you want to ignore or process differently
+// Directly handle specific URLs you want to ignore
 app.get("/new-homes/virginia/richmond/communities", async (c) => {
-  return c.text("This URL is ignored or handled differently")
+  // Simply fetch the URL as is, or return a default response
+  return fetch(c.req.raw)
 })
 
-// Define other routes as needed
+// Define other routes
 app.get("/new-homes/:state/:city/:id", async (c) => {
   const { state, city, id } = c.req.param()
   const url = new URL(
@@ -35,6 +36,42 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
 })
 
 // Handle other cases or redirects as needed
+app.get("/new-homes/region/:slug", async (c) => {
+  const { slug } = c.req.param()
+  const [city, state] = slug.split("--")
+  const url = new URL(`${webflowDomain}/new-homes/${state}/${city}/communities`)
+  const originalUrl = new URL(c.req.url)
+  for (const [key, value] of originalUrl.searchParams) {
+    url.searchParams.set(key, value)
+  }
+  return c.redirect(url.toString())
+})
+
+app.get("/new-homes/communities/:slug", async (c) => {
+  const { slug } = c.req.param()
+  const [community, state, city] = slug.split("--")
+  const url = new URL(
+    `${webflowDomain}/new-homes/${state}/${city}/${community}`
+  )
+  const originalUrl = new URL(c.req.url)
+  for (const [key, value] of originalUrl.searchParams) {
+    url.searchParams.set(key, value)
+  }
+  return c.redirect(url.toString())
+})
+
+app.get("/new-homes/floor-plans-and-models/:slug", async (c) => {
+  const { slug } = c.req.param()
+  const [floorPlanName, community, state, city] = slug.split("--")
+  const url = new URL(
+    `${webflowDomain}/new-homes/${state}/${city}/${community}/floorplans/${floorPlanName}`
+  )
+  const originalUrl = new URL(c.req.url)
+  for (const [key, value] of originalUrl.searchParams) {
+    url.searchParams.set(key, value)
+  }
+  return c.redirect(url.toString())
+})
 
 app.use("*", (c) => fetch(c.req.raw))
 
