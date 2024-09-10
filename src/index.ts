@@ -6,7 +6,22 @@ const webflowDomain = "https://hhhunthomesdev.com"
 
 // Directly handle specific URLs you want to ignore
 app.get("/new-homes/virginia/richmond/communities", async (c) => {
-  // Simply fetch the URL as is, or return a default response
+  return fetch(c.req.raw) // Simply fetch the URL as is, or return a default response
+})
+
+app.get("/new-homes/virginia/suffolk/communities", async (c) => {
+  return fetch(c.req.raw)
+})
+
+app.get("/new-homes/virginia/williamsburg/communities", async (c) => {
+  return fetch(c.req.raw)
+})
+
+app.get("/new-homes/north-carolina/raleigh-durham/communities", async (c) => {
+  return fetch(c.req.raw)
+})
+
+app.get("/new-homes/north-carolina/southern-pines-carthage/communities", async (c) => {
   return fetch(c.req.raw)
 })
 
