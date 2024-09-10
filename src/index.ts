@@ -10,6 +10,7 @@ app.get("/new-homes/:state/:city/communities", async (c) => {
   const { city, state } = c.req.param()
   console.log(state, city)
 
+/*
   //Get the communities from the webflow
   const url = new URL(`${webflowDomain}/new-homes/region/${city}--${state}`)
   console.log(url.toString())
@@ -18,6 +19,7 @@ app.get("/new-homes/:state/:city/communities", async (c) => {
     url.searchParams.set(key, value)
   }
   return fetch(url)
+*/
 })
 
 app.get("/new-homes/:state/:city/:id", async (c) => {
@@ -49,15 +51,14 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
   return fetch(url)
 })
 
-
-//Redirect to the procies urls if uses is using webflow url strucutre
+/*
+//Redirect to the procies urls if uses is using webflow url structure
 app.get("/new-homes/region/:slug", async (c) => {
   const { slug } = c.req.param()
   //get city and state from slug separated by "-"
   const [city, state] = slug.split("--")
   console.log(city, state)
 
-  //const redirectUrl = `/new-homes/${state}/${city}/communities`
   const url = new URL(`${webflowDomain}/new-homes/${state}/${city}/communities`)
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
@@ -65,8 +66,9 @@ app.get("/new-homes/region/:slug", async (c) => {
   }
   return c.redirect(url.toString())
 })
+*/
 
-//handle rediect to communities page
+//handle redirect to communities page
 app.get("/new-homes/communities/:slug", async (c) => {
   const { slug } = c.req.param()
   //get city and state from slug separated by "-"
@@ -83,7 +85,7 @@ app.get("/new-homes/communities/:slug", async (c) => {
   return c.redirect(url.toString())
 })
 
-//handle rediect to floorplans page
+//handle redirect to floorplans page
 app.get("/new-homes/floor-plans-and-models/:slug", async (c) => {
   const { slug } = c.req.param()
   //get city and state from slug separated by "-"
