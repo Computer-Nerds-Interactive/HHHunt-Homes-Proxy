@@ -5,7 +5,7 @@ const app = new Hono()
 const webflowDomain = "https://hhhunthomesdev.com"
 
 
-
+/*
 app.get("/new-homes/virginia/richmond/communities", async (c) => {
   const url = new URL(`${webflowDomain}/new-homes/virginia/richmond/communities`)
   return fetch(url)
@@ -15,6 +15,7 @@ app.get("/new-homes/virginia/suffolk/communities", async (c) => {
   const url = new URL(`${webflowDomain}/new-homes/virginia/suffolk/communities`)
   return fetch(url)
 })
+*/
 
 app.get("/new-homes/:state/:city/:id", async (c) => {
   const { state, city, id } = c.req.param()
