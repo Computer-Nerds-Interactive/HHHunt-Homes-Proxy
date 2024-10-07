@@ -4,17 +4,20 @@ const app = new Hono()
 
 const webflowDomain = "https://hhhunthomesdev.com"
 
+// Handle /new-homes/:state/:city/communities as a dynamic route
 app.get("/new-homes/:state/:city/communities", async (c) => {
-  const { city, state } = c.req.param()
-  console.log(state, city)
+  const { state, city } = c.req.param()
 
-  //Get the communities from the webflow
-  const url = new URL(`${webflowDomain}/new-homes/${city}/${state}/communities`)
-  console.log(url.toString())
+  // Construct the Webflow URL for this page
+  const url = new URL(`${webflowDomain}/new-homes/${state}/${city}/communities`)
   const originalUrl = new URL(c.req.url)
+
+  // Add any query parameters from the original URL
   for (const [key, value] of originalUrl.searchParams) {
     url.searchParams.set(key, value)
   }
+
+  // Fetch the page from Webflow
   return fetch(url)
 })
 
