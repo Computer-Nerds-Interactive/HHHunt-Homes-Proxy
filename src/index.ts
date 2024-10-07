@@ -52,6 +52,7 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
 })
 
 //Redirect to the procies urls if uses is using webflow url strucutre
+/*
 app.get("/new-homes/region/:slug", async (c) => {
   const { slug } = c.req.param()
   //get city and state from slug separated by "-"
@@ -66,6 +67,7 @@ app.get("/new-homes/region/:slug", async (c) => {
   }
   return c.redirect(url.toString())
 })
+*/
 
 //handle rediect to communities page
 app.get("/new-homes/communities/:slug", async (c) => {
