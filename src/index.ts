@@ -5,32 +5,27 @@ const app = new Hono()
 const webflowDomain = "https://hhhunthomesdev.com"
 
 
-// Directly handle specific URLs you want to ignore
-app.get("/new-homes/virginia/richmond/communities", async (c) => {
-  return fetch(c.req.raw) // Simply fetch the URL as is, or return a default response
+/*
+app.get("/new-homes/:state/:city/communities", async (c) => {
+  const { city, state } = c.req.param()
+  console.log(state, city)
+
+  //Get the communities from the webflow
+  const url = new URL(`${webflowDomain}/new-homes/region/${city}--${state}`)
+  console.log(url.toString())
+  const originalUrl = new URL(c.req.url)
+  for (const [key, value] of originalUrl.searchParams) {
+    url.searchParams.set(key, value)
+  }
+  return fetch(url)
 })
 
-app.get("/new-homes/virginia/suffolk/communities", async (c) => {
-  return fetch(c.req.raw)
-})
+*/
 
-app.get("/new-homes/virginia/williamsburg/communities", async (c) => {
-  return fetch(c.req.raw)
-})
-
-app.get("/new-homes/north-carolina/raleigh-durham/communities", async (c) => {
-  return fetch(c.req.raw)
-})
-
-app.get("/new-homes/north-carolina/southern-pines-carthage/communities", async (c) => {
-  return fetch(c.req.raw)
-})
-
-// ***** Define other routes
-
-//communities
 app.get("/new-homes/:state/:city/:id", async (c) => {
   const { state, city, id } = c.req.param()
+
+  //Get the communities from the webflow
   const url = new URL(
     `${webflowDomain}/new-homes/communities/${id}--${state}--${city}`
   )
@@ -41,9 +36,11 @@ app.get("/new-homes/:state/:city/:id", async (c) => {
   return fetch(url)
 })
 
-//floor plans
 app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
   const { state, city, community, slug } = c.req.param()
+  console.log(state, city, community, slug)
+
+  //Get the communities from the webflow
   const url = new URL(
     `${webflowDomain}/new-homes/floor-plans-and-models/${slug}--${community}--${state}--${city}`
   )
@@ -54,25 +51,14 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
   return fetch(url)
 })
 
-//move-in-ready homes
-app.get("/new-homes/:state/:city/:community/move-in-ready-homes/:address", async (c) => {
-  const { state, city, community, address } = c.req.param()
-  const url = new URL(
-    `${webflowDomain}/new-homes/move-in-ready-homes/${address}--${community}--${city}--${state}`
-  )
-  const originalUrl = new URL(c.req.url)
-  for (const [key, value] of originalUrl.searchParams) {
-    url.searchParams.set(key, value)
-  }
-  return fetch(url)
-})
-
-// ***** Handle other cases or redirects as needed
-
-/*
+//Redirect to the procies urls if uses is using webflow url strucutre
 app.get("/new-homes/region/:slug", async (c) => {
   const { slug } = c.req.param()
+  //get city and state from slug separated by "-"
   const [city, state] = slug.split("--")
+  console.log(city, state)
+
+  //const redirectUrl = `/new-homes/${state}/${city}/communities`
   const url = new URL(`${webflowDomain}/new-homes/${state}/${city}/communities`)
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
@@ -81,11 +67,13 @@ app.get("/new-homes/region/:slug", async (c) => {
   return c.redirect(url.toString())
 })
 
-*/
-
+//handle rediect to communities page
 app.get("/new-homes/communities/:slug", async (c) => {
   const { slug } = c.req.param()
+  //get city and state from slug separated by "-"
   const [community, state, city] = slug.split("--")
+  console.log(community, state, city)
+
   const url = new URL(
     `${webflowDomain}/new-homes/${state}/${city}/${community}`
   )
@@ -96,24 +84,15 @@ app.get("/new-homes/communities/:slug", async (c) => {
   return c.redirect(url.toString())
 })
 
+//handle rediect to floorplans page
 app.get("/new-homes/floor-plans-and-models/:slug", async (c) => {
   const { slug } = c.req.param()
+  //get city and state from slug separated by "-"
   const [floorPlanName, community, state, city] = slug.split("--")
+  console.log(floorPlanName, community, state, city)
+
   const url = new URL(
     `${webflowDomain}/new-homes/${state}/${city}/${community}/floorplans/${floorPlanName}`
-  )
-  const originalUrl = new URL(c.req.url)
-  for (const [key, value] of originalUrl.searchParams) {
-    url.searchParams.set(key, value)
-  }
-  return c.redirect(url.toString())
-})
-
-app.get("/new-homes/move-in-ready-homes/:slug", async (c) => {
-  const { slug } = c.req.param()
-  const [specAddress, community, state, city] = slug.split("--")
-  const url = new URL(
-    `${webflowDomain}/new-homes/${state}/${city}/${community}/move-in-ready-homes/${specAddress}`
   )
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
