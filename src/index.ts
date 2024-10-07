@@ -11,14 +11,17 @@ app.get("/new-homes/virginia/richmond/communities", async (c) => {
   return fetch(url)
 })
 
-
+app.get("/new-homes/virginia/suffolk/communities", async (c) => {
+  const url = new URL(`${webflowDomain}/new-homes/virginia/suffolk/communities`)
+  return fetch(url)
+})
 
 app.get("/new-homes/:state/:city/:id", async (c) => {
   const { state, city, id } = c.req.param()
 
   //Get the communities from the webflow
   const url = new URL(
-    `${webflowDomain}/new-homes/communities/${id}--${state}--${city}`
+    `${webflowDomain}/communities/${id}--${state}--${city}`
   )
   const originalUrl = new URL(c.req.url)
   for (const [key, value] of originalUrl.searchParams) {
@@ -45,7 +48,7 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
 //Redirect to the procies urls if uses is using webflow url strucutre
 
 //handle rediect to communities page
-app.get("/new-homes/communities/:slug", async (c) => {
+app.get("/communities/:slug", async (c) => {
   const { slug } = c.req.param()
   //get city and state from slug separated by "-"
   const [community, state, city] = slug.split("--")
