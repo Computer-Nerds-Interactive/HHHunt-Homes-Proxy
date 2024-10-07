@@ -67,7 +67,7 @@ app.get("/new-homes/:state/:city/:community/floorplans/:slug", async (c) => {
 // For Move-In Ready
 app.get("/new-homes/:state/:city/:community/move-in-ready-homes/:address", async (c) => {
   const { state, city, community, address } = c.req.param()
-  console.log(state, city, community, slug)
+  console.log(state, city, community, address)
 
   //Get the communities from the webflow
   const url = new URL(
